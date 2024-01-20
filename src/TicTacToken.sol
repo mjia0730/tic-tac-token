@@ -4,20 +4,14 @@ pragma solidity 0.8.10;
 contract TicTacToken {
     uint256[9] public board;
 
-    address public owner;
-    address public playerX;
-    address public playerO;
+    address public owner = 0x51e9837C8dE8B2A19576bAA5c0e4f10b80FC0d61;
+    address public playerX = 0x576a2af90CBAb4A38093F37bBa52A972382b0918;
+    address public playerO = 0x32c81e47D4155aD6A2CBCFd27fb83a9b63A7d109;
 
     uint256 internal constant EMPTY = 0;
     uint256 internal constant X = 1;
     uint256 internal constant O = 2;
     uint256 internal _turns;
-
-    constructor(address _owner, address _playerX, address _playerO){
-        owner = _owner;
-        playerX = _playerX;
-        playerO = _playerO;
-    }
 
     function getBoard() public view returns (uint256[9] memory) {
         return board;

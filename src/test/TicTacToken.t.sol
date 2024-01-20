@@ -16,15 +16,15 @@ contract TicTacTokenTest is DSTest {
     uint256 internal constant X = 1;
     uint256 internal constant O = 2;
 
-    address internal constant OWNER = address(1);
-    address internal constant PLAYER_X = address(2);
-    address internal constant PLAYER_O = address(3);
+    address internal constant OWNER = 0x51e9837C8dE8B2A19576bAA5c0e4f10b80FC0d61;
+    address internal constant PLAYER_X = 0x576a2af90CBAb4A38093F37bBa52A972382b0918;
+    address internal constant PLAYER_O = 0x32c81e47D4155aD6A2CBCFd27fb83a9b63A7d109;
 
     User internal playerX;
     User internal playerO;
 
     function setUp() public {
-        ttt = new TicTacToken(OWNER, PLAYER_X, PLAYER_O);
+        ttt = new TicTacToken();
         playerX = new User(PLAYER_X, ttt, vm);
         playerO = new User(PLAYER_O, ttt, vm);
     }
