@@ -45,17 +45,23 @@ contract TicTacTokenTest is DSTest {
     }
 
     function test_can_mark_space_with_X() public {
+        ttt.getPlayerX(PLAYER_X);
+        ttt.getPlayerO(PLAYER_O);
         playerX.markSpace(0);
         assertEq(ttt.board(0), X);
     }
 
     function test_can_mark_space_with_O() public {
+        ttt.getPlayerX(PLAYER_X);
+        ttt.getPlayerO(PLAYER_O);
         playerX.markSpace(0);
         playerO.markSpace(1);
         assertEq(ttt.board(1), O);
     }
 
     function test_cannot_overwrite_marked_space() public {
+        ttt.getPlayerX(PLAYER_X);
+        ttt.getPlayerO(PLAYER_O);
         playerX.markSpace(0);
         
         vm.expectRevert("Already marked");
@@ -63,12 +69,16 @@ contract TicTacTokenTest is DSTest {
     }
 
     function test_symbols_must_alternate() public {
+        ttt.getPlayerX(PLAYER_X);
+        ttt.getPlayerO(PLAYER_O);
         playerX.markSpace(0);
         vm.expectRevert("Not your turn");
         playerX.markSpace(1);
     }
 
     function test_tracks_current_turn() public {
+        ttt.getPlayerX(PLAYER_X);
+        ttt.getPlayerO(PLAYER_O);
         assertEq(ttt.currentTurn(), X);
         playerX.markSpace(0);
         assertEq(ttt.currentTurn(), O);
@@ -77,6 +87,8 @@ contract TicTacTokenTest is DSTest {
     }
 
     function test_checks_for_horizontal_win() public {
+        ttt.getPlayerX(PLAYER_X);
+        ttt.getPlayerO(PLAYER_O);
         playerX.markSpace(0);
         playerO.markSpace(3);
         playerX.markSpace(1);
@@ -86,6 +98,8 @@ contract TicTacTokenTest is DSTest {
     }
 
     function test_checks_for_horizontal_win_row2() public {
+        ttt.getPlayerX(PLAYER_X);
+        ttt.getPlayerO(PLAYER_O);
         playerX.markSpace(3);
         playerO.markSpace(0);
         playerX.markSpace(4);
@@ -95,6 +109,8 @@ contract TicTacTokenTest is DSTest {
     }
 
     function test_checks_for_vertical_win() public {
+        ttt.getPlayerX(PLAYER_X);
+        ttt.getPlayerO(PLAYER_O);
         playerX.markSpace(1);
         playerO.markSpace(0);
         playerX.markSpace(2);
@@ -105,6 +121,8 @@ contract TicTacTokenTest is DSTest {
     }
 
     function test_checks_for_diagonal_win() public {
+        ttt.getPlayerX(PLAYER_X);
+        ttt.getPlayerO(PLAYER_O);
         playerX.markSpace(0);
         playerO.markSpace(1);
         playerX.markSpace(4);
@@ -115,6 +133,8 @@ contract TicTacTokenTest is DSTest {
     }
 
     function test_checks_for_antidiagonal_win() public {
+        ttt.getPlayerX(PLAYER_X);
+        ttt.getPlayerO(PLAYER_O);
         playerX.markSpace(0);
         playerO.markSpace(2);
         playerX.markSpace(1);
@@ -125,6 +145,8 @@ contract TicTacTokenTest is DSTest {
     }
 
     function test_draw_returns_no_winner() public {
+        ttt.getPlayerX(PLAYER_X);
+        ttt.getPlayerO(PLAYER_O);
         playerX.markSpace(4);
         playerO.markSpace(0);
         playerX.markSpace(1);
@@ -141,6 +163,8 @@ contract TicTacTokenTest is DSTest {
     }
 
     function test_game_in_progress_returns_no_winner() public {
+        ttt.getPlayerX(PLAYER_X);
+        ttt.getPlayerO(PLAYER_O);
         playerX.markSpace(1);
         assertEq(ttt.winner(), 0);
     }
@@ -161,22 +185,24 @@ contract TicTacTokenTest is DSTest {
 
     function test_owner_can_reset_board() public {
         vm.prank(OWNER);
-        ttt.resetBoard();
+        ttt.newBoard();
     }
 
     function test_non_owner_cannot_reset_board() public {
         vm.expectRevert("Unauthorized");
-        ttt.resetBoard();
+        ttt.newBoard();
     }
 
     function test_reset_board() public {
+        ttt.getPlayerX(PLAYER_X);
+        ttt.getPlayerO(PLAYER_O);
         playerX.markSpace(3);
         playerO.markSpace(0);
         playerX.markSpace(4);
         playerO.markSpace(1);
         playerX.markSpace(5);
         vm.prank(OWNER);
-        ttt.resetBoard();
+        ttt.newBoard();
 
         uint256[9] memory expected = [
             EMPTY,
@@ -198,10 +224,14 @@ contract TicTacTokenTest is DSTest {
     }
 
     function test_stores_player_X() public {
+        ttt.getPlayerX(PLAYER_X);
+        ttt.getPlayerO(PLAYER_O);
         assertEq(ttt.playerX(), PLAYER_X);
     }
 
     function test_stores_player_O() public {
+        ttt.getPlayerX(PLAYER_X);
+        ttt.getPlayerO(PLAYER_O);
         assertEq(ttt.playerO(), PLAYER_O);
     }
 
@@ -212,10 +242,14 @@ contract TicTacTokenTest is DSTest {
     }
 
     function test_auth_playerX_can_mark_space() public {
+        ttt.getPlayerX(PLAYER_X);
+        ttt.getPlayerO(PLAYER_O);
         playerX.markSpace(0);
     }
 
     function test_auth_playerO_can_mark_space() public {
+        ttt.getPlayerX(PLAYER_X);
+        ttt.getPlayerO(PLAYER_O);
         playerX.markSpace(0);
 
         playerO.markSpace(1);

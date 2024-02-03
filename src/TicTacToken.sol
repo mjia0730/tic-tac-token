@@ -5,8 +5,8 @@ contract TicTacToken {
     uint256[9] public board;
 
     address public owner = 0x51e9837C8dE8B2A19576bAA5c0e4f10b80FC0d61;
-    address public playerX = 0x576a2af90CBAb4A38093F37bBa52A972382b0918;
-    address public playerO = 0x32c81e47D4155aD6A2CBCFd27fb83a9b63A7d109;
+    address public playerX;
+    address public playerO;
 
     uint256 internal constant EMPTY = 0;
     uint256 internal constant X = 1;
@@ -15,6 +15,34 @@ contract TicTacToken {
 
     function getBoard() public view returns (uint256[9] memory) {
         return board;
+    }
+
+    function displayBoard() public view returns (string memory) {
+        string memory result = "";
+        for (uint256 i = 0; i < 9; i++) {
+            if (i % 3 == 0 && i > 0) {
+                result = string(abi.encodePacked(result, "\n"));
+            }
+            if (board[i] == 1) {
+                result = string(abi.encodePacked(result, "X"));
+            } else if (board[i] == 2) {
+                result = string(abi.encodePacked(result, "O"));
+            } else {
+                result = string(abi.encodePacked(result, "_"));
+            }
+            if (i % 3 < 2) {
+                result = string(abi.encodePacked(result, " | "));
+            }
+        }
+        return result;
+    }
+
+    function getPlayerX(address addressX) public {
+        playerX = addressX;
+    }
+
+    function getPlayerO(address addressO) public {
+        playerO = addressO;
     }
 
     function markSpace(uint256 space) public {
@@ -26,7 +54,7 @@ contract TicTacToken {
         _turns++;
     }
 
-    function _getSymbol() public view returns (uint256) {
+    function _getSymbol() internal view returns (uint256) {
         if (msg.sender == playerX) return X;
         if (msg.sender == playerO) return O;
         return EMPTY;
@@ -91,7 +119,8 @@ contract TicTacToken {
         ];
         for (uint256 i; i < wins.length; i++) {
             uint256 win = _checkWin(wins[i]);
-            if (win == X || win == O) return win;
+            if (win == X || win == O) 
+                return win;
         }
         return 0;
     }
@@ -102,7 +131,7 @@ contract TicTacToken {
         return msg.sender;
     }
 
-    function resetBoard() public {
+    function newBoard() public {
         require(
             msg.sender == owner,
             "Unauthorized"
